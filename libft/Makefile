@@ -6,7 +6,7 @@
 #    By: jromagna <jromagna@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/04 15:50:50 by jromagna          #+#    #+#              #
-#    Updated: 2014/12/22 18:02:58 by jromagna         ###   ########.fr        #
+#    Updated: 2014/12/23 18:08:43 by jromagna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ SRC = ft_isdigit.c \
 	  ft_lstdel.c \
 	  ft_lstadd.c \
 	  ft_lstiter.c \
+	  ft_tabswap.c
 
 all : $(NAME)
 OBJ	= $(SRC:.c=.o)
