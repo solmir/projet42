@@ -26,6 +26,7 @@
 # include <uuid/uuid.h>
 # include <time.h>
 # include <stdio.h>
+# include <sys/_types/_uid_t.h>
 
 typedef struct			s_lstruct
 {
@@ -91,7 +92,7 @@ t_bloc				*alpha_list(t_bloc *dir);
 //transition
 void				ft_ls(t_lstruct *opt, t_bloc *bloc);
 
-//decoupe blocs
+//decoupe blocsis
 t_bloc				*decoupator(t_bloc *bloc);
 t_bloc				*filator(t_bloc *bloc);
 t_bloc				*director(t_bloc *bloc);
@@ -118,10 +119,6 @@ t_bloc				*colonisator(t_bloc *bloc, t_lstruct *opt);
 
 //PEDOBEAR
 t_bloc				*ft_pedobear(t_bloc *bloc, dev_t dev);
-int					its_over_9000(long int	i);
-int					bin_to_int(char *bin);
-int					ft_nope(char	*bin);
-int					come_here_sweety(char	*bin);
 
 //option r
 t_bloc				*retournator(t_bloc *dir);

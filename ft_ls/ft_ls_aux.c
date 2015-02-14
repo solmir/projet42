@@ -115,9 +115,9 @@ t_bloc		*t_bloc_filler(t_bloc *bloc)
 		bloc->realtime = buf.st_mtime;
 		bloc->time = ft_strdup(ctime((const time_t*)(&(buf.st_mtime))));
 		bloc->link = ft_itoa(buf.st_nlink);
-	}
-	if (bloc->droit[0] == 'c' || bloc->droit[0] == 'b')
+		if ((bloc->droit[0] == 'c' || bloc->droit[0] == 'b') && bloc->name != NULL)
 		bloc = ft_pedobear(bloc, buf.st_rdev);
+	}
 	return (bloc);
 }
 
