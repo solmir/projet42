@@ -17,13 +17,18 @@ t_bloc			*new_bloc()
 	t_bloc      *bloc;
 
 	bloc = malloc(sizeof(t_bloc));
-	bloc->path = NULL;
 	bloc->name = NULL;
+	bloc->path = NULL;
 	bloc->droit = NULL;
 	bloc->link = NULL;
+	bloc->realtime = 0;
 	bloc->time = NULL;
+	bloc->block = 0;
 	bloc->size = NULL;
+	bloc->inde = 0;
 	bloc->next = NULL;
+	bloc->bufpass = NULL;
+	bloc->bufgrp = NULL;
 	return (bloc);
 }
 

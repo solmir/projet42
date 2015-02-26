@@ -80,47 +80,60 @@ char    *file_tes_droits(struct stat *buf)
 	droit = malloc(sizeof(char) * 12);
 	droit = ft_memset(droit, '-', 10);
 	droit = file_ton_type(buf, droit);
-	(mode & 000400) ? droit[1] = 'r' : '-';
-	(mode & 000200) ? droit[2] = 'w' : '-';
-	(mode & 000100) ? droit[3] = 'x' : '-';
-	(mode & 000040) ? droit[4] = 'r' : '-';
-	(mode & 000020) ? droit[5] = 'w' : '-';
-	(mode & 000010) ? droit[6] = 'x' : '-';
-	(mode & 000004) ? droit[7] = 'r' : '-';
-	(mode & 000002) ? droit[8] = 'w' : '-';
-	(mode & 000001) ? droit[9] = 'x' : '-';
+	(mode & S_IRUSR) ? droit[1] = 'r' : '-';
+	(mode & S_IWUSR) ? droit[2] = 'w' : '-';
+	(mode & S_IXUSR) ? droit[3] = 'x' : '-';
+	if (droit[3] == 'x')
+		(mode & S_ISUID) ? droit[3] = 's' : 'x';
+	else
+		(mode & S_ISUID) ? droit[3] = 'S' : '-';
+	(mode & S_IRGRP) ? droit[4] = 'r' : '-';
+	(mode & S_IWGRP) ? droit[5] = 'w' : '-';
+	(mode & S_IXGRP) ? droit[6] = 'x' : '-';
+	if (droit[6] == 'x')
+		(mode & S_ISGID) ? droit[6] = 's' : 'x';
+	else
+		(mode & S_ISGID) ? droit[6] = 'S' : '-';
+	(mode & S_IROTH) ? droit[7] = 'r' : '-';
+	(mode & S_IWOTH) ? droit[8] = 'w' : '-';
+	(mode & S_IXOTH) ? droit[9] = 'x' : '-';
+	if (droit[9] == 'x')
+		(mode & S_ISVTX) ? droit[9] = 't' : 'x';
+	else
+		(mode & S_ISVTX) ? droit[9] = 'T' : '-';
 	droit[10] = ' ';
 	droit[11] = '\0';
 	return (droit);
 }
+
 
 t_bloc		*t_bloc_filler(t_bloc *bloc)
 {
 	struct stat buf;
 
 	errno = 0;
-	if (lstat(bloc->path, &buf) == -1)
+	if (stat(bloc->path, &buf) == -1)
 	{
-		ft_puterror(strerror(errno), bloc->path);
-		bloc->inde = 1;
+		if (lstat(bloc->path, &buf) == -1)
+		{
+			ft_puterror(strerror(errno), bloc->path);
+			bloc->inde = 1;
+			return (bloc);
+		}
 	}
-	else
-	{
-		bloc->inde = 0;
-		bloc->block = buf.st_blocks;
-		bloc->droit = ft_strdup(file_tes_droits(&buf));
-		bloc->bufpass = getpwuid(buf.st_uid);
-		bloc->bufgrp = getgrgid(buf.st_gid);
-		bloc->size = ft_itoa(buf.st_size);
-		bloc->realtime = buf.st_mtime;
-		bloc->time = ft_strdup(ctime((const time_t*)(&(buf.st_mtime))));
-		bloc->link = ft_itoa(buf.st_nlink);
-		if ((bloc->droit[0] == 'c' || bloc->droit[0] == 'b') && bloc->name != NULL)
+	bloc->inde = 0;
+	bloc->block = buf.st_blocks;
+	bloc->droit = ft_strdup(file_tes_droits(&buf));
+	bloc->bufpass = getpwuid(buf.st_uid);
+	bloc->bufgrp = getgrgid(buf.st_gid);
+	bloc->size = ft_itoa(buf.st_size);
+	bloc->realtime = buf.st_mtime;
+	bloc->time = ft_strdup(ctime((const time_t*)(&(buf.st_mtime))));
+	bloc->link = ft_itoa(buf.st_nlink);
+	if ((bloc->droit[0] == 'c' || bloc->droit[0] == 'b') && bloc->name != NULL)
 		bloc = ft_pedobear(bloc, buf.st_rdev);
-	}
 	return (bloc);
 }
-
 
 t_bloc		*t_bloc_filler_link(t_bloc *bloc)
 {

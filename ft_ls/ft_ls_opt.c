@@ -15,7 +15,10 @@
 void		ft_puterror(char *error, char *name)
 {
 	ft_putstr_fd("ls: ", 2);
-	ft_putstr_fd(name, 2);
+	if (ft_strcmp(name, "") == 0)
+		ft_putstr_fd("fts_open", 2);
+	else
+		ft_putstr_fd(name, 2);
 	ft_putstr_fd(": ", 2);
 	ft_putendl_fd(error, 2);
 }
@@ -50,7 +53,10 @@ void		dir_opener(t_lstruct *opt, t_bloc *bloc)
 			{
 				dir->name = ft_strdup(drent->d_name);
 				dir = path_finder(dir, bloc);
-				dir = t_bloc_filler(dir);
+				if (opt->optl == 1)
+					dir = t_bloc_filler_l(dir);
+				else 
+					dir = t_bloc_filler(dir);
 				dir->next = new_bloc();
 				dir = dir->next;
 			}
@@ -68,7 +74,11 @@ void		dirigeator(t_lstruct *opt,t_bloc *dir, t_bloc *bloc)
 	t_bloc		*blocpoint;
 	t_bloc		*tmp;
 
-	//ft_putendl("dirigeator");
+
+	ft_putendl("dirigeator");
+	ft_putendl(dir->name);
+	ft_putendl(bloc->name);
+	ft_putchar('\n');
 	dir = alpha_list(dir);
 	if (opt->optR == 1)
 		blocpoint = director(dir);

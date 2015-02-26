@@ -105,11 +105,28 @@ t_bloc		*colonisator(t_bloc *bloc, t_lstruct *opt)
 		bloc = bloc->next;
 	}
 	bloc = colonisator2(tmp, size);
-	if (opt->tot == 0 && bloc->name != NULL)
+	if (opt->tot == 0 && bloc->name != NULL && totverif(bloc, opt) == 0)
 	{
 		ft_putstr("total ");
 		ft_putnbr(b);
 		ft_putchar('\n');
 	}
 	return (bloc);
+}
+
+int			totverif(t_bloc *bloc, t_lstruct *opt)
+{
+	int		i;
+
+	i = 0;
+	if ((opt->opta == 0) && verificator(bloc->name) != 1)
+		return(1);
+	while(bloc != NULL)
+	{
+		i++;
+		bloc = bloc->next;
+	}
+	if (i == 3 && (opt->opta == 0))
+		return (1);
+	return(0);
 }

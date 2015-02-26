@@ -56,14 +56,15 @@ typedef struct			s_bloc
 	struct group		*bufgrp;
 	char				*droit;
 	char				*link;
-	int 				major;
-	int 				minor;
+	uid_t				st_uid;
+	gid_t				st_gid;
 	time_t				realtime;
 	char				*time;
 	int					block;
 	char				*size;
 	int					inde;
 	struct s_bloc		*next;
+	
 }						t_bloc;
 
 
@@ -77,6 +78,7 @@ int					opt_verificator(char *tab);
 char				*file_ton_type(struct stat *buf,char *droit);
 char				*file_tes_droits(struct stat *buf);
 t_bloc				*t_bloc_filler(t_bloc *bloc);
+t_bloc				*t_bloc_filler_l(t_bloc *bloc);
 
 //new_bloc
 t_bloc				*new_bloc();
@@ -108,6 +110,8 @@ void				dir_opener(t_lstruct *opt, t_bloc *bloc);
 void				dirigeator(t_lstruct *opt,t_bloc *dir, t_bloc *bloc);
 
 //option l
+int					totverif(t_bloc *bloc, t_lstruct *opt);
+t_bloc				*uidgid(t_bloc *bloc);
 t_bloc				*t_bloc_filler_link(t_bloc *bloc);
 char				*time_guardian(char *time, time_t real_tm);
 t_size				*t_size_builder();
@@ -115,7 +119,6 @@ t_bloc				*colonisator3(t_bloc *bloc);
 t_bloc				*colonisator2(t_bloc *bloc, t_size *size);
 int					calculator(blkcnt_t b, t_lstruct *opt, char point);
 t_bloc				*colonisator(t_bloc *bloc, t_lstruct *opt);
-
 
 //PEDOBEAR
 t_bloc				*ft_pedobear(t_bloc *bloc, dev_t dev);

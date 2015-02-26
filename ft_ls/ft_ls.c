@@ -34,7 +34,7 @@ int			opt_verificator(char *tab)
 	}
 	if (tab[0] == '-' && tab[1] == '-' && tab[2] != '\0')
 	{
-		ft_putendl("illegal option");
+		ft_putendl_fd("illegal option", 2);
 		exit(1);
 	}
 	return (1);

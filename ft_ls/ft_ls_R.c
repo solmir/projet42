@@ -59,11 +59,12 @@ t_lstruct		*ft_putlist_multidir(t_lstruct *opt, t_bloc *lst, t_bloc *bloc)
 			ft_putendl(lst->name);
 		else if (opt->optl == 1)
 		{
-			if (verificator(lst->name) == 1)
+			if ((verificator(lst->name) == 1) && (verificator(bloc->name) == 1))
 				ft_putendl(lst->name);
 		}
 		else if ((lst->name[0] != '.' && bloc->name[0] != '.') 
-			|| (lst->name[0] != '.' && ft_strcmp(bloc->name, ".") == 0))
+			|| (lst->name[0] != '.' && ft_strcmp(bloc->name, ".") == 0)
+			|| (lst->name[0] != '.' && ft_strcmp(bloc->name, "./") == 0))
 			ft_putendl(lst->name);
 		lst = lst->next;
 	}

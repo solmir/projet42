@@ -2,7 +2,8 @@
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      ##    By: jromagna <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                     +:+ +:+         +:+      #
+#    By: jromagna <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/01/15 19:25:51 by jromagna          #+#    #+#              #
 #    Updated: 2015/01/15 20:17:26 by jromagna         ###   ########.fr        #
@@ -20,11 +21,12 @@ SRC = ft_ls.c \
 	  ft_ls_a.c \
 	  ft_ls_t.c \
 	  dirigeator.c \
-	  pedobear.c
+	  pedobear.c \
+	  symlink.c
 
 OBJ = $(SRC:.c=.o)
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
 	 
 all: $(NAME)
 		 

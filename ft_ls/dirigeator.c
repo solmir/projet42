@@ -21,9 +21,13 @@ void			ft_ls(t_lstruct *opt, t_bloc *bloc)
 	tmp = bloc;
 	file = new_bloc();
 	dir = new_bloc();
+	bloc = alpha_list(bloc);
 	while (bloc != NULL && bloc->name != NULL)
 	{
-		bloc = t_bloc_filler(bloc);
+		if (opt->optl == 1)
+			bloc = t_bloc_filler_l(bloc);
+		else 
+			bloc = t_bloc_filler(bloc);
 		opt->nbrdir++;
 		bloc = bloc->next;
 	}
@@ -35,6 +39,8 @@ void			ft_ls(t_lstruct *opt, t_bloc *bloc)
 	if (bloc != NULL && bloc->name != NULL)
 		dir = director_pre(bloc);
 	tmp = new_bloc();
+	file = alpha_list(file);
+	dir = alpha_list(dir);
 	tmp->name = ft_strdup(".");
 	tmp->path = ft_strdup(".");
 	opt->tot = 1;
@@ -43,7 +49,9 @@ void			ft_ls(t_lstruct *opt, t_bloc *bloc)
 	if (opt->tot == 1)
 		opt->tot = 0;
 	if (dir != NULL && dir->name != NULL)
+	{
 		dir_opener(opt, dir);
+	}
 }
 
 t_bloc		*filator(t_bloc *bloc)
