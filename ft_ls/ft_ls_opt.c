@@ -25,62 +25,61 @@ void		ft_puterror(char *error, char *name)
 
 void		dir_opener(t_lstruct *opt, t_bloc *bloc)
 {
-	t_bloc          *tmp;
-	t_bloc          *dir;
-	t_bloc          *tmpdir;
-	struct dirent   *drent;
-	DIR             *pt;
+	t_bloc			*tmp;
+	t_bloc			*dir;
+	DIR				*pt;
 
-	if (opt->optR == 1 && opt->optr == 1)
+	if (opt->optgr == 1 && opt->optr == 1)
 		bloc = retournator(bloc);
 	while (bloc != NULL && bloc->name != NULL)
 	{
 		errno = 0;
 		tmp = bloc;
 		dir = new_bloc();
-		tmpdir = dir;
 		pt = opendir(bloc->path);
 		if (errno != 0)
 		{
-			opt = ft_putpath(opt, bloc);
+			opt = ft_putpath_error(opt, bloc);
 			ft_puterror(strerror(errno), bloc->path);
 		}
 		else
-		{
-			if (opt->nbrdir > 1 || opt->optR == 1)
-				opt = ft_putpath(opt, bloc);
-			while ((drent = readdir(pt)) != 0)
-			{
-				dir->name = ft_strdup(drent->d_name);
-				dir = path_finder(dir, bloc);
-				if (opt->optl == 1)
-					dir = t_bloc_filler_l(dir);
-				else 
-					dir = t_bloc_filler(dir);
-				dir->next = new_bloc();
-				dir = dir->next;
-			}
-		dirigeator(opt, tmpdir, tmp);
-		}
+			open_2(opt, dir, tmp, pt);
 		if (pt != NULL)
 			closedir(pt);
 		bloc = bloc->next;
 	}
 }
 
+void		open_2(t_lstruct *opt, t_bloc *dir, t_bloc *bloc, DIR *pt)
+{
+	t_bloc			*tmpdir;
+	t_bloc			*tmp;
+	struct dirent	*drent;
 
-void		dirigeator(t_lstruct *opt,t_bloc *dir, t_bloc *bloc)
+	tmp = bloc;
+	tmpdir = dir;
+	if (opt->nbrdir > 1 || opt->optgr == 1)
+		opt = ft_putpath(opt, bloc);
+	while ((drent = readdir(pt)) != 0)
+	{
+		dir->name = ft_strdup(drent->d_name);
+		dir = path_finder(dir, bloc);
+		if (opt->optl == 1 || opt->optt == 1)
+			dir = t_bloc_filler_l(dir);
+		else
+			dir = t_bloc_filler(dir);
+		dir->next = new_bloc();
+		dir = dir->next;
+	}
+	dirigeator(opt, tmpdir, tmp);
+}
+
+void		dirigeator(t_lstruct *opt, t_bloc *dir, t_bloc *bloc)
 {
 	t_bloc		*blocpoint;
-	t_bloc		*tmp;
 
-
-	ft_putendl("dirigeator");
-	ft_putendl(dir->name);
-	ft_putendl(bloc->name);
-	ft_putchar('\n');
 	dir = alpha_list(dir);
-	if (opt->optR == 1)
+	if (opt->optgr == 1)
 		blocpoint = director(dir);
 	if (opt->optt == 1)
 		dir = time_attack(dir);
@@ -88,22 +87,26 @@ void		dirigeator(t_lstruct *opt,t_bloc *dir, t_bloc *bloc)
 		dir = colonisator(dir, opt);
 	if (opt->optr == 1)
 		dir = retournator(dir);
-	if (opt->optR == 1)
-		opt = ft_putlist_R(opt, dir, bloc);
+	if (opt->optgr == 1)
+		opt = ft_putlist_gr(opt, dir, bloc);
 	else if (opt->nbrdir > 1)
-		opt = ft_putlist_multidir(opt, dir , bloc);
+		opt = ft_putlist_mul(opt, dir, bloc);
 	else
 		opt = ft_putlst(opt, dir);
-	if (opt->optR == 1)
+	if (opt->optgr == 1)
+		pre_optr(blocpoint, opt, bloc);
+}
+
+t_bloc		*dup_name_path(t_bloc *tmp)
+{
+	t_bloc	*tmptmp;
+
+	tmptmp = tmp;
+	while (tmp != NULL && tmp->name != NULL)
 	{
-		tmp = blocpoint;
-		while (blocpoint != NULL && blocpoint->name != NULL)
-		{
-			blocpoint = path_finder(blocpoint, bloc);
-			blocpoint = blocpoint->next;
-		}
-		blocpoint = tmp;
-		if (blocpoint->name != NULL)
-			dir_opener(opt, blocpoint);
+		if (tmp->name != NULL)
+			tmp->path = ft_strdup(tmp->name);
+		tmp = tmp->next;
 	}
+	return (tmptmp);
 }

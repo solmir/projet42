@@ -12,9 +12,9 @@
 
 #include "ft_ls.h"
 
-t_bloc			*new_bloc()
+t_bloc			*new_bloc(void)
 {
-	t_bloc      *bloc;
+	t_bloc	*bloc;
 
 	bloc = malloc(sizeof(t_bloc));
 	bloc->name = NULL;
@@ -32,11 +32,11 @@ t_bloc			*new_bloc()
 	return (bloc);
 }
 
-t_bloc		*alpha_list(t_bloc *dir)
-{	
-	t_bloc  *tmp;
-	t_bloc  *dup;
-	t_bloc  *bloc;
+t_bloc			*alpha_list(t_bloc *dir)
+{
+	t_bloc	*tmp;
+	t_bloc	*dup;
+	t_bloc	*bloc;
 
 	tmp = dir;
 	while (dir != NULL && dir->name != NULL)
@@ -54,14 +54,14 @@ t_bloc		*alpha_list(t_bloc *dir)
 		}
 		dir = dir->next;
 	}
- 	return (tmp);
+	return (tmp);
 }
 
 t_lstruct		*ft_putpath(t_lstruct *opt, t_bloc *bloc)
 {
 	if (verificator_path(bloc->path, opt) == 1)
 	{
-		if (opt->nbr == 0 && opt->optR == 1 && opt->nbrdir < 2)
+		if (opt->nbr == 0 && opt->optgr == 1 && opt->nbrdir < 2)
 			opt->nbr++;
 		else
 		{
@@ -96,12 +96,10 @@ t_lstruct		*ft_putlst(t_lstruct *opt, t_bloc *lst)
 	return (opt);
 }
 
-
-
-int			verificator(char *tab)
+int				verificator(char *tab)
 {
 	int i;
-	
+
 	i = 0;
 	while (tab[i])
 		i++;
@@ -110,7 +108,7 @@ int			verificator(char *tab)
 		i--;
 	while (tab[i] != ' ')
 		i--;
-	if(tab[i - 1] == '>' && tab[i - 2] == '-')
+	if (tab[i - 1] == '>' && tab[i - 2] == '-')
 	{
 		i = i - 4;
 		while (tab[i] != ' ')

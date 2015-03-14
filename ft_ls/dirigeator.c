@@ -12,26 +12,33 @@
 
 #include "ft_ls.h"
 
-void			ft_ls(t_lstruct *opt, t_bloc *bloc)
+void		ft_ls(t_lstruct *opt, t_bloc *bloc)
 {
-	t_bloc	*file;
 	t_bloc	*dir;
 	t_bloc	*tmp;
 
 	tmp = bloc;
-	file = new_bloc();
 	dir = new_bloc();
 	bloc = alpha_list(bloc);
 	while (bloc != NULL && bloc->name != NULL)
 	{
 		if (opt->optl == 1)
 			bloc = t_bloc_filler_l(bloc);
-		else 
+		else
 			bloc = t_bloc_filler(bloc);
 		opt->nbrdir++;
 		bloc = bloc->next;
 	}
-	bloc = tmp;
+	ft_ls2(opt, tmp, dir);
+}
+
+void		ft_ls2(t_lstruct *opt, t_bloc *bloc, t_bloc *dir)
+{
+	t_bloc	*file;
+	t_bloc	*tmp;
+
+	tmp = bloc;
+	file = new_bloc();
 	if ((bloc = decoupator(bloc)) == NULL)
 		exit (1);
 	if (bloc != NULL && bloc->name != NULL)
@@ -49,16 +56,14 @@ void			ft_ls(t_lstruct *opt, t_bloc *bloc)
 	if (opt->tot == 1)
 		opt->tot = 0;
 	if (dir != NULL && dir->name != NULL)
-	{
 		dir_opener(opt, dir);
-	}
 }
 
 t_bloc		*filator(t_bloc *bloc)
 {
-	t_bloc  *dir;
-	t_bloc  *tmp;
-		   
+	t_bloc	*dir;
+	t_bloc	*tmp;
+
 	dir = new_bloc();
 	tmp = dir;
 	while (bloc != NULL && bloc->name != NULL)
@@ -83,7 +88,7 @@ t_bloc		*decoupator(t_bloc *bloc)
 	i = 0;
 	goodlst = new_bloc();
 	tmp = goodlst;
-	while(bloc != NULL && bloc->name != NULL)
+	while (bloc != NULL && bloc->name != NULL)
 	{
 		if (bloc->inde != 1)
 		{
@@ -116,28 +121,6 @@ t_bloc		*director_pre(t_bloc *bloc)
 			dir->next = new_bloc();
 			dir = dir->next;
 		}
-		bloc = bloc->next;
-	}
-	return (tmp);
-}
-
-t_bloc		*director(t_bloc *bloc)
-{
-	t_bloc	*dir;
-	t_bloc	*tmp;
-
-	dir = new_bloc();
-	tmp = dir;
-	while (bloc != NULL && bloc->name != NULL)
-	{
-		if ((strcmp(bloc->name, ".") != 0) && 
-			(strcmp(bloc->name, "..") != 0))
-			if (bloc->droit[0] == 'd')
-			{
-				dir = bloc_cpy(dir, bloc);
-				dir->next = new_bloc();
-				dir = dir->next;
-			}
 		bloc = bloc->next;
 	}
 	return (tmp);

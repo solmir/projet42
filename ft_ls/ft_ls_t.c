@@ -25,12 +25,12 @@ char		*time_guardian(char *tm, time_t real_tm)
 	{
 		tab[4] = ft_strsub(tab[4], 0, 4);
 		tab[4] = ft_strjoin(" ", tab[4]);
-		tm = ft_strjoin(tm , tab[4]);
+		tm = ft_strjoin(tm, tab[4]);
 	}
 	else
 	{
 		tab[3] = ft_strsub(tab[3], 0, 5);
-		tm = ft_strjoin(tm , tab[3]);
+		tm = ft_strjoin(tm, tab[3]);
 	}
 	return (tm);
 }

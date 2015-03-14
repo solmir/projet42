@@ -16,29 +16,40 @@ SRC = ft_ls.c \
 	  ft_ls_aux.c \
 	  ft_ls_aux2.c \
 	  ft_ls_opt.c \
-	  ft_ls_R.c \
+	  ft_ls_gr.c \
 	  ft_ls_l.c \
-	  ft_ls_a.c \
 	  ft_ls_t.c \
 	  dirigeator.c \
 	  pedobear.c \
-	  symlink.c
+	  symlink.c \
+	  ft_ls_aux3.c \
 
 OBJ = $(SRC:.c=.o)
-CC = gcc
+CC = clang
 CFLAGS = -Wall -Wextra -Werror -g
-	 
+
 all: $(NAME)
 		 
-$(NAME):
-	make -C libft re
-	$(CC) $(CFLAGS) -I libft -c $(SRC)
-	$(CC) $(CFLAGS) $(OBJ) -L libft -lft -o $(NAME)
+$(NAME): $(OBJ)
+	@echo "libft start"
+	@make -C libft
+	@echo "libft ok"
+	@echo "comp start"
+	@$(CC) $(CFLAGS) -I libft -c $(SRC)
+	@$(CC) $(CFLAGS) $(OBJ) -L libft -lft -o $(NAME)
+	@echo "ALL DONE"
+
+norm:
+	norminette $(SRC)
 
 clean:
-	/bin/rm -f *.o
+	@echo "cleaning .o"
+	@/bin/rm -f $(OBJ)
+	@echo "cleaning .o done"
 				 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@echo "cleaning NAME"
+	@/bin/rm -f $(NAME)
+	@echo "cleaning NAME done"
 
 re: fclean all
