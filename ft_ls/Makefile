@@ -35,7 +35,7 @@ $(NAME): $(OBJ)
 	@make -C libft
 	@echo "libft ok"
 	@echo "comp start"
-	@$(CC) $(CFLAGS) -I libft -c $(SRC)
+	$(CC) $(CFLAGS) -I libft -c $(SRC)
 	@$(CC) $(CFLAGS) $(OBJ) -L libft -lft -o $(NAME)
 	@echo "ALL DONE"
 

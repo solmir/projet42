@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tabswap.c                                       :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jromagna <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/12/11 18:30:04 by jromagna          #+#    #+#             */
-/*   Updated: 2014/12/12 18:50:24 by jromagna         ###   ########.fr       */
+/*   Created: 2015/03/30 23:22:01 by jromagna          #+#    #+#             */
+/*   Updated: 2015/04/02 17:26:00 by jromagna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# define BUFF_SIZE 100
 
-char	**ft_tabswap(char **tab, int i, int j)
-{
-	char	*dup;
+# include <stdlib.h>
+# include "libft.h"
+# include <sys/types.h>
+# include <sys/uio.h>
+# include <unistd.h>
 
-	dup = ft_strdup(tab[j]);
-	tab[j] = ft_strdup(tab[i]);
-	tab[i] = ft_strdup(dup);
-	return (tab);
-}
+int		get_next_line(int const fd, char **line);
+int		retournator(char **str, char **line);
+int		ft_gnl_len(char *str);
+
+#endif
