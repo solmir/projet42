@@ -1,0 +1,57 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jromagna <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2015/04/10 23:44:43 by jromagna          #+#    #+#              #
+#    Updated: 2015/05/09 13:44:51 by jromagna         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = fdf
+
+SRC = fdf.c \
+	  legend_of_pixel.c \
+	  recuperator.c \
+	  calculator.c
+
+
+OBJ = $(SRC:.c=.o)
+CC = clang
+CFLAGS = -Wall -Wextra -Werror -g -ggdb -g3
+#CFLAGS = 
+
+all: $(NAME)
+
+do: $(NAME)
+	./fdf
+
+$(NAME): $(OBJ)
+	#@make -C ../../Desktop/minilibx_macos
+	@echo "libft start"
+	@make -C libft
+	@echo "libft ok"
+	@echo "comp start"
+	@$(CC) $(CFLAGS) -L libft -lft -lmlx -framework OpenGL -framework AppKit $(OBJ) -o fdf
+#	@$(CC) $(CFLAGS) -I ./libft -I ../../Desktop/minilibx_macos  -c $(SRC)
+#	@$(CC) $(CFLAGS) -v -o $(NAME) $(OBJ) -L./libft -L../../Desktop/minilibx_macos -lft -L/usr/X11/lib -lmlx -framework OpenGL -framework AppKit ../../Desktop/minilibx_macos/libmlx.a
+	@echo "ALL DONE"
+
+norm:
+	norminette $(SRC)
+
+clean:
+	@echo "cleaning .o"
+	@/bin/rm -f $(OBJ)
+	@make -C libft clean
+	@echo "cleaning .o done"
+				 
+fclean: clean
+	@echo "cleaning NAME"
+	@/bin/rm -f $(NAME)
+	@make -C libft fclean
+	@echo "cleaning NAME done"
+
+re: fclean all
