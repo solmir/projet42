@@ -1,0 +1,11 @@
+{
+"color_scheme": "Packages/Solarized Color Scheme/Solarized (dark).tmTheme",
+"ignored_packages":
+[
+	"Vintage"
+],
+"always_show_minimap_viewport": true,
+"highlight_line": true,
+"draw_white_space": "all",
+}
+
