@@ -27,9 +27,9 @@
 # define L_RES		480
 # define H_RES		480
 
-# define SCR_L		0.5
-# define SCR_H		0.5
-# define SCR_DIST	1
+# define SCR_L		1
+# define SCR_H		1
+# define SCR_DIST	2
 # define L_IND		SCR_L / L_RES
 # define H_IND		SCR_H / H_RES
 
@@ -101,6 +101,20 @@ typedef	struct		s_inter
 	t_vec			*pos;
 }					t_inter;
 
+typedef	struct		s_screen
+{
+	t_vec			*upleft;
+}					t_screen;
+
+typedef	struct		s_cam
+{
+	t_vec			*pos;
+	t_vec			*dir;
+	t_vec			*up;
+	t_vec			*right;
+	double			angle;
+}					t_cam;
+
 typedef	struct		s_env
 {
 	void			*mlx;
@@ -112,8 +126,8 @@ typedef	struct		s_env
 	int				endiant;
 	int				sline;
 
-	t_pd			*cam;
-	t_pd			*screen;
+	t_cam			*cam;
+	t_screen		*screen;
 
 	t_item			*item;
 	t_light			*light;
@@ -123,7 +137,7 @@ typedef	struct		s_env
 }					t_env;
 
 void			recuperator(t_env *e, char *name);
-void			get_file(t_env *e, char *name);
+void			mega_initiator(t_env *e, char *name);
 void			pixel_to_image(t_env *s, int x, int y, unsigned int color);
 int				expose_hook(t_env *env);
 int				key_down_hook(int keycode, t_env *env);
@@ -144,9 +158,14 @@ int				check_t(t_inter *inter, double t);
 void			check_sphere(t_item *item, t_pd *s, t_inter *inter);
 void			check_plane(t_item *item, t_pd *s, t_inter *inter);
 void			normalizator(t_vec *vec);
+t_vec			*normalizator_ret(t_vec *vec);
 double			ft_fatoi(char *s);
 void			impactor(t_env *env, t_pd *pd, t_inter *inter);
 void			luminator(t_env *e);
 t_light			*fill_t_light(char **t, t_light *light);
+void			print_vec(t_vec *vec);
+void			ft_puttab(char **tab);
+t_vec			*prod_vector(t_vec *v1, t_vec *v2);
+
 
 #endif

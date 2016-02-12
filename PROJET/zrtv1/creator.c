@@ -42,37 +42,70 @@ void		t_inter_set(t_inter *inter)
 	inter->pos->z = 0;
 }
 
+void		calc_dir(t_env *env, t_vec *dir, float x, float y)
+{
+	//ft_putendl("calc dir");
+	// printf("cdx = %f cdy = %f cdz = %f\n", env->cam->dir->x, env->cam->dir->y, env->cam->dir->z);
+	// printf("cux = %f cuy = %f cuz = %f\n", env->cam->up->x, env->cam->up->y, env->cam->up->z);
+	// printf("crx = %f cry = %f crz = %f\n\n", env->cam->right->x, env->cam->right->y, env->cam->right->z);
+	//ft_putendl("qwerqwer");
+	dir->x = (env->screen->upleft->x + (env->cam->up->x * SCR_H * y /H_RES) + (env->cam->right->x * SCR_L * x /L_RES)) - env->cam->pos->x;
+	dir->y = (env->screen->upleft->y + (env->cam->up->y * SCR_H * y /H_RES) + (env->cam->right->y * SCR_L * x /L_RES)) - env->cam->pos->y;
+	dir->z = (env->screen->upleft->z + (env->cam->up->z * SCR_H * y /H_RES) + (env->cam->right->z * SCR_L * x /L_RES)) - env->cam->pos->z;
+// 	dir->x = (env->cam->dir->x * SCR_DIST) + (env->cam->up->x * SCR_H * y /480) + (env->cam->right->x * SCR_L * x /480);
+// 	//ft_putendl("calc dir2");
+// 	dir->y = (env->cam->dir->y * SCR_DIST) + (env->cam->up->y * SCR_H * y /480) + (env->cam->right->y * SCR_L * x /480);
+// 	//ft_putendl("calc dir3");
+// 	dir->z = (env->cam->dir->z * SCR_DIST) + (env->cam->up->z * SCR_H * y /480) + (env->cam->right->z * SCR_L * x /480);
+// 	//ft_putendl("calc dir4");
+// //	printf("cdx = %f cdy = %f cdz = %f\n", dir->x, dir->y, dir->z);
+	normalizator (dir);
+}
+
+void		ft_check(t_env *env)
+{
+	if(env->item == NULL)
+		ft_putendl("NULLLLLL");
+	if(env->item->sp == NULL && env->item->pl == NULL)
+		ft_putendl(" SP NULLLLLL");
+
+	printf("CAM px=%f py=%f pz=%f\ndx=%f dy=%f dz=%f\n", env->cam->pos->x, env->cam->pos->y,env->cam->pos->z, env->cam->dir->x, env->cam->dir->y, env->cam->dir->z);
+	printf("LUM px=%f py=%f pz=%f\n", env->light->pos->x, env->light->pos->y, env->light->pos->z);
+	printf("SP px=%f py=%f pz=%f\n", env->item->sp->c->x, env->item->sp->c->y, env->item->sp->c->z);
+}
+
 void		creator(t_env *env)
 {
-	int		x;
-	int		y;
+	double		x;
+	double		y;
 	t_pd	*pd;
 
+	ft_putendl("creator");
+//	ft_check(env);
 	y = 0;
 	pd = new_t_pd();
-	//ft_putendl("creator");
+	pd->pos = env->cam->pos;
+	pd->dir = new_t_vec(0,0,0);
 	while (y < H_SIZE)
 	{
 		x = 0;
 		while (x < L_SIZE)
 		{
+			pd->pos = env->cam->pos;
 			env->fcolor = 0x000000;
 			env->inter = new_t_inter();
 			t_inter_set(env->inter);
-		//	ft_putendl("boucle");
-			pd->pos = env->cam->pos;
-		//	printf("env->cam->pos x%f\n",env->cam->pos->x );
-		//	printf("env->cam->dir x%f\n",env->screen->pos->y );
-			pd->dir = env->screen->pos;
+			calc_dir(env, pd->dir, x, y);
+			//printf("\nx = %f y = %f", x, y );
+			//if (x == 1 && ((int)y % 100 == 0))
+				//print_vec(pd->dir);
+			//print_vec(pd->pos);
 			impactor(env, pd, env->inter);
 			set_inter_pos(env->inter, pd);
 			luminator(env);
 			pixel_to_image(env, x, y, env->fcolor);
-			env->screen->pos->z = env->screen->dir->z + L_IND * x;
-			x++;
+			x += 1;
 		}
-		env->screen->pos->z = env->screen->dir->z;
-		env->screen->pos->y = env->screen->pos->y - L_IND;
-		y++;
+		y += 1;
 	}
 }

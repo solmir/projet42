@@ -17,6 +17,7 @@ void	set_normal_sphere(t_pd *pd, t_inter *inter, t_item *item)
 	inter->norm->x = (pd->pos->x + (pd->dir->x * inter->t)) - item->sp->c->x;
 	inter->norm->y = (pd->pos->y + (pd->dir->y * inter->t)) - item->sp->c->y;
 	inter->norm->z = (pd->pos->z + (pd->dir->z * inter->t)) - item->sp->c->z;
+	normalizator(inter->norm);
 	set_inter_pos(inter, pd);
 }
 
@@ -38,7 +39,10 @@ void		check_sphere(t_item *item, t_pd *s, t_inter *inter)
 	double	del;
 	double	t;
 
-//	ft_putendl("pre calcul");
+	// ft_putendl("pre calcul");
+	// print_vec(s->dir);
+	// print_vec(s->pos);
+	// print_vec(item->sp->c);
 	a = carre(s->dir->x) + carre(s->dir->y) + carre(s->dir->z);
 	b = 2 * (s->dir->x * (s->pos->x - item->sp->c->x) + s->dir->y
 	* (s->pos->y - item->sp->c->y) + s->dir->z * (s->pos->z - item->sp->c->z));

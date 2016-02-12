@@ -36,11 +36,26 @@ t_light			*fill_t_light(char **t, t_light *light)
 	return (light);
 }
 
+t_vec	*normalizator_ret(t_vec *vec)
+{
+	double	lenght;
+
+	lenght = sqrt(carre(vec->x) + carre(vec->y) + carre(vec->z));
+	if (lenght == 0)
+		ft_error("i just saved the universe!");
+	vec->x = vec->x / lenght;
+	vec->y = vec->y / lenght;
+	vec->z = vec->z / lenght;
+	return (vec);
+}
+
 void	normalizator(t_vec *vec)
 {
 	double	lenght;
 
 	lenght = sqrt(carre(vec->x) + carre(vec->y) + carre(vec->z));
+	if (lenght == 0)
+		ft_error("i just saved the universe!");
 	vec->x = vec->x / lenght;
 	vec->y = vec->y / lenght;
 	vec->z = vec->z / lenght;
@@ -48,14 +63,18 @@ void	normalizator(t_vec *vec)
 
 double	l_color(double i, double a)
 {
-	if ((i - a) >= 0)
+	return (i * (a / 256));
+//	printf("i = %f a = %f\n",i, a);
+	if ((i - a) > 0)
 		return (i - a);
-	return (i);
+	return (0);
 }
 
 int		comparator_pos(t_inter *inter, t_inter *einter)
 {
-	if (inter->pos->x == einter->pos->x && inter->pos->y == einter->pos->y && inter->pos->z == einter->pos->z)
+	if ((inter->pos->x > einter->pos->x - 0.000001 && inter->pos->x < einter->pos->x + 0.000001) 
+		&& (inter->pos->y > einter->pos->y - 0.000001 && inter->pos->y < einter->pos->y + 0.000001) 
+		&& (inter->pos->z > einter->pos->z - 0.000001 && inter->pos->z < einter->pos->z + 0.000001))
 	{
 		return (1);
 	}
@@ -65,7 +84,7 @@ int		comparator_pos(t_inter *inter, t_inter *einter)
 void		luminator(t_env *e)
 {
 	t_pd			*lvec;
-	double			angle;
+	float			angle;
 	t_inter			*inter;
 	unsigned char	r;
 	unsigned char	g;
@@ -90,10 +109,10 @@ void		luminator(t_env *e)
 		normalizator(lvec->dir);
 		impactor(e, lvec, inter);
 		set_inter_pos(inter, lvec);
-		if (comparator_pos(inter, e->inter) == 1)
+		if (comparator_pos(inter, e->inter) == 0)
 		{
 			e->light = e->light->next;
-			e->fcolor = 0xFF0000;
+			//e->fcolor = 0xFF0000;
 			continue;
 		}
 		normalizator(inter->norm);
@@ -101,12 +120,20 @@ void		luminator(t_env *e)
 		angle = acos(angle);
 		angle = fabs(angle * 180 / M_PI);
 		angle = angle / 360 * 256;
-		angle = l_color(256, angle);
-		if (angle > 0)
-		{
-			r = l_color(1 * (e->light->color & 0xFF0000), angle);
-			g = l_color(1 * (e->light->color & 0x00FF00), angle);
-			b = l_color(1 * (e->light->color & 0x0000FF), angle);
+		//angle = 256 - angle;
+	//	printf("angle = %f\n", angle);
+		 if (angle >= 0)
+		 {
+			angle = (angle > 0) ? angle : 0;
+			r = l_color(1 * ((e->light->color >> 16) & 0xFF), angle);
+			g = l_color(1 * ((e->light->color >> 8) & 0xFF), angle);
+			b = l_color(1 * ((e->light->color >> 0) & 0xFF), angle);
+			// r = angle + 256 / 2;
+			// g = 0;
+			// b = 0;
+			r = (r > 255)? 255: r;
+			g = (g > 255)? 255: g;
+			b = (b > 255)? 255: b;
 			e->fcolor += get_color(r, g, b);
 		}
 		e->light = e->light->next;

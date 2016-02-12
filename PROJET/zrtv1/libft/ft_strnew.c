@@ -21,10 +21,11 @@ char	*ft_strnew(size_t size)
 	s = (char*)malloc(sizeof(char) * (size + 1));
 	if (s == NULL)
 		return (NULL);
-	while (i <= size)
+	while (i <= size + 1)
 	{
 		s[i] = '\0';
 		i++;
 	}
+
 	return (s);
 }

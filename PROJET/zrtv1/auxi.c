@@ -12,7 +12,30 @@
 
 #include "rtv1.h"
 
+t_vec		*prod_vector(t_vec *v1, t_vec *v2)
+{
+	return (new_t_vec(fabs(v1->y * v2->z - v1->z * v2->y), fabs(v1->z * v2->x - v1->x * v2->z), fabs( v1->x * v2->y - v1->y * v2->x)));
+}
 
+void		ft_puttab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while(tab[i])
+	{
+		printf("tab[%d] =\n", i);
+		ft_putendl(tab[i]);
+		i++;
+	}
+}
+
+void		print_vec(t_vec *vec)
+{
+	printf("\nx = [%f]\n", vec->x);
+	printf("y = [%f]\n", vec->y);
+	printf("z = [%f]\n", vec->z);
+}
 
 double	fatoi_aux(char *str, double *si)
 {
@@ -60,7 +83,7 @@ double	ft_fatoi(char *s)
 	while (d2 > 1)
 		d2 /= 10;
 	//printf("s = %f d1 = %f d2 = %f\n",si, d1 ,d2);
-	printf("fatoi = %f\n\n", si * (d1 + d2));
+	printf("fatoi = %f\n", si * (d1 + d2));
 	return (si * (d1 + d2));
 }
 

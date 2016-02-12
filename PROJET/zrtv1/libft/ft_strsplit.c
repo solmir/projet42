@@ -23,7 +23,7 @@ char	**ft_strsplit(char const *s, char c)
 	ti = 0;
 	if (!s)
 		return (NULL);
-	tab = (char**)malloc(sizeof(char *) * (ft_strlen(s) / 2));
+	tab = (char**)malloc(sizeof(char *) * (ft_strlen(s)));
 	while (s[i])
 	{
 		h = 0;
