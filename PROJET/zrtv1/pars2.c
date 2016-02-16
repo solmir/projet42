@@ -28,7 +28,7 @@ t_item			*fill_t_item(char **t, t_item *item)
 {
 	if (strcmp(t[0], "sphere") == 0)
 	{
-		ft_putendl("cECI EST UNE SPHER");
+		ft_putendl("CECI EST UNE SPHERE");
 		item->sp = new_t_sphere(ft_fatoi(t[1]), ft_fatoi(t[2]),
 		ft_fatoi(t[3]), ft_fatoi(t[4]));
 		item->mat = new_t_mat(t[5]);
@@ -61,180 +61,28 @@ t_screen		*set_screen(t_cam *cam)
 	x = cam->dir->x * SCR_DIST - cam->up->x * SCR_H - cam->right->x * SCR_L;
 	y = cam->dir->y * SCR_DIST - cam->up->y * SCR_H - cam->right->y * SCR_L;
 	z = cam->dir->z * SCR_DIST - cam->up->z * SCR_H - cam->right->z * SCR_L;
-	screen->upleft = new_t_vec(x, y, z) 	;
+	screen->upleft = new_t_vec(x, y, z) ;
 	print_vec(screen->upleft);
 	return (screen);
 }
 
-void			matrix_printator(float **mat, int i, int j)
-{
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < i)
-	{
-		x = 0;
-		while (x < j)
-		{
-			printf("%f", mat[y][x]);
-			if (x != j - 1)
-				printf(",");
-			x++;
-		}
-		printf("\n");
-		y++;
-	}
-}
-
-
-/*
-float			**mat_inversator(float **m)
-{
-	float	det;
-	float	**m2;
-	int		i;
-
-	i = 0;
-	m2 = (float**)malloc(sizeof(float*) * 3);
-	while (i < 3)
-	{
-		m2[i] = (float*)malloc(sizeof(float) * 3);
-		i++;
-	}
-	det = m[0][0] * m[1][1] * m[2][2] 
-	+ m[0][1] * m[1][2] * m[2][0]
-	+ m[0][2] * m[1][0] * m[2][1]
-	- m[0][2] * m[1][1] * m[2][0]
-	- m[1][2] * m[2][1] * m[0][0]
-	- i * m[0][1] * m[1][0];
-	det = (m[0][0] * ((m[1][1] * m[2][2]) - (m[1][2] * m[2][1]))
-	- (m[0][1] * ((m[1][0] * m[2][2]) - (m[1][2] * m[2][0]))) 
-	+ (m[0][2] * ((m[1][0] * m[2][1]) - (m[1][1] * m[2][0]))));*/
-	/* det = m[0][0] * m[1][1] * m[2][1]
-	 + m[0][1] * m[1][2] * m[2][0]
-	 + m[0][2] * m[1][0] * m[2][2]
-	 - m[0][2] * m[1][1] * m[2][0]
-	 - m[1][2] * m[2][2] * m[0][0] 
-	 - m[2][1] * m[0][1] * m[1][0];*/
-	/*m2[0][0] = (m[1][1] * m[2][2] - m[1][2] * m[2][1]) / det;
-	m2[0][1] = (m[0][2] * m[2][1] - m[0][1] * m[2][2]) / det;
-	m2[0][2] = (m[0][1] * m[1][2] - m[0][2] * m[1][1]) / det;
-	m2[1][0] = (m[1][2] * m[2][0] - m[1][0] * m[2][2]) / det;
-	m2[1][1] = (m[0][0] * m[2][2] - m[0][2] * m[2][0]) / det;
-	m2[1][2] = (m[0][2] * m[1][0] - m[0][0] * m[1][2]) / det;
-	m2[2][0] = (m[1][0] * m[2][1] - m[1][1] * m[2][0]) / det;
-	m2[2][1] = (m[0][1] * m[2][0] - m[0][0] * m[2][1]) / det;
-	m2[2][2] = (m[0][0] * m[1][1] - m[0][1] * m[1][0]) / det;
-	printf("DET = %f\n", det);
-	ft_putendl("MAT A LENDROIT");
-	matrix_printator(m, 3, 3);
-	ft_putendl("MAT A LENVERS");
-	matrix_printator(m2, 3, 3);
-	return (m2);
-}
-
-float		**eulerator(t_cam *cam)
-{
-	double	alpha;
-	double	beta;
-	double	gamma;
-	float	**mat;
-	float	**mat2;
-	int		i;
-
-	i = -1;
-	printf("EULERATOR\n");
-	mat = (float**)malloc(sizeof(float*) * 3);
-	while (++i < 3)
-		mat[i] = (float*)malloc(sizeof(float) * 3);
-	i = -1;
-	alpha = atan(cam->dir->x / cam->dir->z);
-	beta = cam->angle;
-	gamma = asin(cam->dir->y / sqrt(carre(cam->dir->x) / carre(cam->dir->z)));
-	mat[0][0] = cos(gamma) * cos(alpha) - sin(alpha) * cos(beta) * sin(gamma);
-	mat[0][1] = cos(gamma) * sin(alpha) + sin(gamma) * cos(beta) * cos(alpha);
-	mat[0][2] = sin(gamma) * sin(beta);
-	mat[1][0] = -sin(gamma) * cos(alpha) - cos(gamma) * cos (beta) * cos(alpha);
-	mat[1][1] = -sin(gamma) * sin(alpha) - cos(gamma) * cos(beta) * cos(alpha);
-	mat[1][2] = cos(gamma) * sin(beta);
-	mat[2][0] = sin(beta) * sin(alpha);
-	mat[2][1] = -sin(beta) * cos(alpha);
-	mat[2][2] = cos(beta);
-	ft_putendl("MAT A LENDROIT");
-	matrix_printator(mat, 3, 3);
-	mat2 = mat_inversator(mat);
-	return (mat2);
-}*/
-/*
-float			**mat_33_31_mult(float **m1, float **m2)
-{
-	float		**m3;
-	int			i;
-
-	i = -1;
-	m3 = (float**)malloc(sizeof(float*) * 3);
-	while (++i < 3)
-		m3[i] = (float*)malloc(sizeof(float));
-	m3[0][0] = (m1[0][0] * m2[0][0]) + (m1[0][1] * m2[1][0]) + (m1[0][2] * m2[2][0]);
-	m3[1][0] = (m1[1][0] * m2[0][0]) + (m1[1][1] * m2[1][0]) + (m1[1][2] * m2[2][0]);
-	m3[2][0] = (m1[2][0] * m2[0][0]) + (m1[2][1] * m2[1][0]) + (m1[2][2] * m2[2][0]);
-	return (m3);
-}*/
-/*
-t_vec			*set_cam_up(float **mat)
-{
-	float	**m2;
-	float	**m3;
-	int		i;
-
-	i = -1;
-	m2 = (float**)malloc(sizeof(float*) * 3);
-	while (++i < 3)
-		m2[i] = (float*)malloc(sizeof(float));
-	m2[0][0] = 0;
-	m2[1][0] = 1;
-	m2[2][0] = 0;
-	m3 = mat_33_31_mult(mat, m2);
-	ft_putendl("MAT UP");
-	matrix_printator(m3, 3, 1);
-	return (new_t_vec(m3[0][0], m3[1][0], m3[2][0]));
-}
-
-t_vec			*set_cam_right(float **mat)
-{
-	float	**m2;
-	float	**m3;
-	int		i;
-
-	i = -1;
-	m2 = (float**)malloc(sizeof(float*) * 3);
-	while (++i < 3)
-		m2[i] = (float*)malloc(sizeof(float));
-	m2[0][0] = 0;
-	m2[1][0] = 0;
-	m2[2][0] = 1;
-	m3 = mat_33_31_mult(mat, m2);
-	ft_putendl("MAT RIGHT");
-	matrix_printator(m3, 3, 1);
-	return (new_t_vec(m3[0][0], m3[1][0], m3[2][0]));
-}
-*/
 t_cam			*set_cam(char **t)
 {
 	t_cam	*cam;
-//	float	**mat;
 
 	cam = malloc(sizeof(t_cam));
 	cam->pos = new_t_vec(ft_fatoi(t[1]), ft_fatoi(t[2]), ft_fatoi(t[3]));
-	cam->dir = normalizator_ret(new_t_vec(ft_fatoi(t[4]), ft_fatoi(t[5]), ft_fatoi(t[6])));
+	cam->dir = (new_t_vec(ft_fatoi(t[4]), ft_fatoi(t[5]), ft_fatoi(t[6])));
 	cam->angle = ft_fatoi(t[7]);
-	//mat = eulerator(cam);
-	/*cam->up = set_cam_up(mat);
-	cam->right = set_cam_right(mat);*/
+	normalizator(cam->dir);
 	cam->up = new_t_vec(0, 1, 0);
 	cam->right = prod_vector(cam->dir, cam->up);
+	ft_putendl("right");
+	normalizator(cam->right);
+	print_vec(cam->right);
 	cam->up = prod_vector(cam->dir, cam->right);
+	ft_putendl("up");
+	print_vec(cam->up);
 	return (cam);
 }
 

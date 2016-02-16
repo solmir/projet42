@@ -49,9 +49,9 @@ void		calc_dir(t_env *env, t_vec *dir, float x, float y)
 	// printf("cux = %f cuy = %f cuz = %f\n", env->cam->up->x, env->cam->up->y, env->cam->up->z);
 	// printf("crx = %f cry = %f crz = %f\n\n", env->cam->right->x, env->cam->right->y, env->cam->right->z);
 	//ft_putendl("qwerqwer");
-	dir->x = (env->screen->upleft->x + (env->cam->up->x * SCR_H * y /H_RES) + (env->cam->right->x * SCR_L * x /L_RES)) - env->cam->pos->x;
-	dir->y = (env->screen->upleft->y + (env->cam->up->y * SCR_H * y /H_RES) + (env->cam->right->y * SCR_L * x /L_RES)) - env->cam->pos->y;
-	dir->z = (env->screen->upleft->z + (env->cam->up->z * SCR_H * y /H_RES) + (env->cam->right->z * SCR_L * x /L_RES)) - env->cam->pos->z;
+	dir->x = (env->screen->upleft->x + (env->cam->up->x * SCR_H * y /H_RES) + (env->cam->right->x * SCR_L * x /L_RES))/* - env->cam->pos->x*/;
+	dir->y = (env->screen->upleft->y + (env->cam->up->y * SCR_H * y /H_RES) + (env->cam->right->y * SCR_L * x /L_RES))/* - env->cam->pos->y*/;
+	dir->z = (env->screen->upleft->z + (env->cam->up->z * SCR_H * y /H_RES) + (env->cam->right->z * SCR_L * x /L_RES))/* - env->cam->pos->z*/;
 // 	dir->x = (env->cam->dir->x * SCR_DIST) + (env->cam->up->x * SCR_H * y /480) + (env->cam->right->x * SCR_L * x /480);
 // 	//ft_putendl("calc dir2");
 // 	dir->y = (env->cam->dir->y * SCR_DIST) + (env->cam->up->y * SCR_H * y /480) + (env->cam->right->y * SCR_L * x /480);
@@ -69,7 +69,16 @@ void		ft_check(t_env *env)
 	if(env->item->sp == NULL && env->item->pl == NULL)
 		ft_putendl(" SP NULLLLLL");
 
-	printf("CAM px=%f py=%f pz=%f\ndx=%f dy=%f dz=%f\n", env->cam->pos->x, env->cam->pos->y,env->cam->pos->z, env->cam->dir->x, env->cam->dir->y, env->cam->dir->z);
+	ft_putendl("cam pos");
+	print_vec(env->cam->pos);
+	ft_putendl("cam dir");
+	print_vec(env->cam->dir);
+
+	ft_putendl("cam up");
+	print_vec(env->cam->up);
+
+	ft_putendl("cam right");
+	print_vec(env->cam->right);
 	printf("LUM px=%f py=%f pz=%f\n", env->light->pos->x, env->light->pos->y, env->light->pos->z);
 	printf("SP px=%f py=%f pz=%f\n", env->item->sp->c->x, env->item->sp->c->y, env->item->sp->c->z);
 }
@@ -81,7 +90,7 @@ void		creator(t_env *env)
 	t_pd	*pd;
 
 	ft_putendl("creator");
-//	ft_check(env);
+	ft_check(env);
 	y = 0;
 	pd = new_t_pd();
 	pd->pos = env->cam->pos;
