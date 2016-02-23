@@ -27,6 +27,14 @@ void		impactor(t_env *env, t_pd *pd, t_inter *inter)
 		{
 			check_plane(env->item, pd, inter);
 		}
+		/*else if (env->item->cyl != NULL)
+		{
+			check_cyl(env->item, pd, inter);
+		}*/
+		else if (env->item->con != NULL)
+		{
+			check_con(env->item->con, pd, inter);
+		}
 		env->item = env->item->next;
 	}
 	env->item = lst;
@@ -81,6 +89,7 @@ void		ft_check(t_env *env)
 	print_vec(env->cam->right);
 	printf("LUM px=%f py=%f pz=%f\n", env->light->pos->x, env->light->pos->y, env->light->pos->z);
 	printf("SP px=%f py=%f pz=%f\n", env->item->sp->c->x, env->item->sp->c->y, env->item->sp->c->z);
+	ft_putendl("CHECK FINITO");
 }
 
 void		creator(t_env *env)

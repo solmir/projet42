@@ -66,6 +66,20 @@ typedef	struct		s_sphere
 	double			ray;
 }					t_sphere;
 
+typedef	struct		s_cyl
+{
+	t_vec			*pos;
+	t_vec			*dir;
+	double			ray;
+}					t_cyl;
+
+typedef	struct		s_con
+{
+	t_vec			*pos;
+	t_vec			*dir;
+	double			ang;
+}					t_con;
+
 typedef	struct		s_light
 {
 	t_vec			*pos;
@@ -83,6 +97,8 @@ typedef	struct		s_item
 {
 	t_sphere		*sp;
 	t_pd			*pl;
+	t_cyl			*cyl;
+	t_con			*con;
 	t_mat			*mat;
 	struct s_item	*next;
 }					t_item;
@@ -166,6 +182,12 @@ t_light			*fill_t_light(char **t, t_light *light);
 void			print_vec(t_vec *vec);
 void			ft_puttab(char **tab);
 t_vec			*prod_vector(t_vec *v1, t_vec *v2);
-
-
+t_cyl			*t_cyl_creator(double x, double y, double z, double x1, double y1, double z1, double ray);
+t_con			*t_con_creator(double x, double y, double z, double x1, double y1, double z1, double ang);
+t_vec			*sub_vec(t_vec *v1, t_vec *v2);
+double			dot_prod(t_vec *v1, t_vec *v2);
+double			ft_min(double a, double b);
+t_vec			*vec_mult(t_vec *v1, double x);
+t_vec			*vector_proj_vector(t_vec *v1, t_vec *v2);
+void			check_con(t_con *con, t_pd *s, t_inter *inter);
 #endif

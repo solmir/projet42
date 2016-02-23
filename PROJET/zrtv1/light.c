@@ -72,9 +72,9 @@ double	l_color(double i, double a)
 
 int		comparator_pos(t_inter *inter, t_inter *einter)
 {
-	if ((inter->pos->x > einter->pos->x - 0.000001 && inter->pos->x < einter->pos->x + 0.000001) 
-		&& (inter->pos->y > einter->pos->y - 0.000001 && inter->pos->y < einter->pos->y + 0.000001) 
-		&& (inter->pos->z > einter->pos->z - 0.000001 && inter->pos->z < einter->pos->z + 0.000001))
+	if ((inter->pos->x > einter->pos->x - 0.00000000001 && inter->pos->x < einter->pos->x + 0.00000000001) 
+		&& (inter->pos->y > einter->pos->y - 0.00000000001 && inter->pos->y < einter->pos->y + 0.00000000001) 
+		&& (inter->pos->z > einter->pos->z - 0.00000000001 && inter->pos->z < einter->pos->z + 0.00000000001))
 	{
 		return (1);
 	}

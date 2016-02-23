@@ -12,13 +12,12 @@
 
 #include "rtv1.h"
 
-void	set_normal_sphere(t_pd *pd, t_inter *inter, t_item *item)
+void	set_normal_sphere(t_inter *inter, t_item *item)
 {
-	inter->norm->x = (pd->pos->x + (pd->dir->x * inter->t)) - item->sp->c->x;
-	inter->norm->y = (pd->pos->y + (pd->dir->y * inter->t)) - item->sp->c->y;
-	inter->norm->z = (pd->pos->z + (pd->dir->z * inter->t)) - item->sp->c->z;
+	inter->norm->x = inter->pos->x - item->sp->c->x;
+	inter->norm->y = inter->pos->y - item->sp->c->y;
+	inter->norm->z = inter->pos->z - item->sp->c->z;
 	normalizator(inter->norm);
-	set_inter_pos(inter, pd);
 }
 
 t_sphere	*new_t_sphere(double x, double y, double z, double r)
@@ -56,7 +55,10 @@ void		check_sphere(t_item *item, t_pd *s, t_inter *inter)
 		t = ((-b + sqrt(del)) / (2 * a) > (-b - sqrt(del)) / (2 * a))?
 		(-b - sqrt(del)) / (2 * a) : (-b + sqrt(del)) / (2 * a);
 		if (check_t(inter, t) == 1)
-			set_normal_sphere(s, inter, item);
+		{
+			set_inter_pos(inter, s);
+			set_normal_sphere(inter, item);
+		}
 	}
 //	ft_putendl("post tout ");
 	return ;
